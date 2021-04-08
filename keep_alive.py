@@ -1,3 +1,4 @@
+# This file keeps the Discord bot up and running
 from flask import Flask
 from threading import Thread
 
