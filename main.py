@@ -4,8 +4,10 @@ import os
 import requests
 import json
 import random
+
 from replit import db
 from keep_alive import keep_alive
+
 
 client = discord.Client()
 
@@ -18,6 +20,10 @@ sad_words = [
 starter_encouragements = [
     "Cheer up", "Hang in there", "You are a great person / bot!",
     "Don't worry, It'll get better"
+]
+
+greetings = [
+  "hello","hi","hie","bonjour","aloha","hallo","hey","heyy"
 ]
 
 
@@ -47,19 +53,22 @@ def delete_encouragements(index):
         db["encouragements"] = encouragements
 
 
+# When bot is ready
 @client.event
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
 
 
 @client.event
+# Is being triggered each time a message is received
 async def on_message(message):
+    # If message if from bot
     if message.author == client.user:
         return
 
     # RESPOND TO HELLO
     msg = message.content
-    if msg.startswith('$hello'):
+    if msg.startswith(any(word for word in greetings)):
         await message.channel.send('Hie!')
 
     # RESPOND WITH ENCOURAGING QUOTES
@@ -91,4 +100,5 @@ async def on_message(message):
 
 
 keep_alive()
+# Get secret token for the bot from discord developer page
 client.run(os.getenv('TOKEN'))
